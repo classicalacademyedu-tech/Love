@@ -1,0 +1,187 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A Little World of Love</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div id="hearts"></div>
+
+  <!-- Password Page -->
+  <section id="password" class="page active">
+    <div class="card">
+      <div class="emoji">🌙💗</div>
+      <h1>Hey Momo!</h1>
+      <h2>Can You Guess the Password?</h2>
+      <p>তোমার জন্য অপেক্ষা করছে একটি ছোট্ট পৃথিবী।</p>
+
+      <input
+        type="password"
+        id="pass"
+        placeholder="Enter Password"
+      >
+
+      <button onclick="checkPassword()">
+        Unlock My Little World ✨
+      </button>
+
+      <p id="passMsg"></p>
+    </div>
+  </section>
+
+  <!-- Welcome Page -->
+  <section id="welcome" class="page">
+    <div class="card">
+      <div class="emoji">🧸🌷✨</div>
+      <h1>A Little World of Love</h1>
+      <h2>For Momo 💗</h2>
+      <p>
+        এই ছোট্ট পৃথিবীটা শুধু তোমার জন্য সাজানো।
+        এখানে রয়েছে কিছু স্মৃতি, কিছু ভালোবাসার কথা
+        আর অনেকগুলো সারপ্রাইজ।
+      </p>
+      <button onclick="goTo('letter')">
+        Enter My Little World →
+      </button>
+    </div>
+  </section>
+
+  <!-- Love Letter -->
+  <section id="letter" class="page">
+    <div class="card">
+      <h1>Dear Momo 💌</h1>
+
+      <div class="letter">
+        প্রিয় Momo,
+
+        কিছু মানুষ আমাদের সাধারণ দিনগুলোকে
+        একটু বেশি সুন্দর করে তোলে।
+
+        তোমার সঙ্গে কথা বলা, ছোট ছোট মুহূর্ত
+        ভাগ করে নেওয়া—এসবের মধ্যেই অনেক
+        আনন্দ লুকিয়ে থাকে।
+
+        এই ছোট্ট ওয়েবসাইটটি তোমাকে একটু
+        হাসানোর এবং কিছু সুন্দর স্মৃতি মনে
+        করিয়ে দেওয়ার একটি চেষ্টা।
+
+        তোমার প্রতিটি দিন কাটুক আনন্দে।
+
+        With lots of care,
+        Someone who made this little world just for you. 💗
+      </div>
+
+      <button onclick="goTo('gallery')">
+        Next →
+      </button>
+    </div>
+  </section>
+
+  <!-- Gallery -->
+  <section id="gallery" class="page">
+    <div class="card">
+      <h1>Our Little Gallery 📸</h1>
+
+      <div class="gallery">
+        <div>
+          <h3>Momo's Photo 🌸</h3>
+          <input type="file" accept="image/*"
+                 onchange="previewPhoto(event,'momoPhoto')">
+          <img id="momoPhoto">
+        </div>
+
+        <div>
+          <h3>Your Photo 🌙</h3>
+          <input type="file" accept="image/*"
+                 onchange="previewPhoto(event,'myPhoto')">
+          <img id="myPhoto">
+        </div>
+      </div>
+
+      <button onclick="goTo('date')">
+        Next: Our Special Date →
+      </button>
+    </div>
+  </section>
+
+  <!-- Special Date -->
+  <section id="date" class="page">
+    <div class="card">
+      <div class="moon">🌙</div>
+      <h1>When Did We First Meet?</h1>
+
+      <p>
+        সেই সুন্দর দিনটি বেছে নাও,
+        যেদিন আমাদের প্রথম দেখা হয়েছিল।
+      </p>
+
+      <input type="date" id="meetDate">
+
+      <button onclick="saveDate()">
+        Save Our Special Date 🌹
+      </button>
+
+      <h3 id="dateResult"></h3>
+      <h3 id="elapsed"></h3>
+
+      <button onclick="goTo('quiz')">
+        Continue →
+      </button>
+    </div>
+  </section>
+
+  <!-- Quiz -->
+  <section id="quiz" class="page">
+    <div class="card">
+      <h1>A Little Quiz 💞</h1>
+
+      <h3>
+        এই ওয়েবসাইটটি কার জন্য তৈরি?
+      </h3>
+
+      <button onclick="quizAnswer(false)">
+        Someone Else
+      </button>
+
+      <button onclick="quizAnswer(true)">
+        Momo 💗
+      </button>
+
+      <p id="quizResult"></p>
+
+      <button onclick="goTo('gift')">
+        Final Surprise →
+      </button>
+    </div>
+  </section>
+
+  <!-- Final Surprise -->
+  <section id="gift" class="page">
+    <div class="card">
+      <h1>A Gift For You 🎁</h1>
+
+      <div class="gift" onclick="openGift()">
+        🎁
+      </div>
+
+      <div id="finalMessage" class="hidden">
+        <h1>You Are My Favourite Person, Momo! ❤️</h1>
+        <p>
+          তোমার জন্য রইল অনেক শুভকামনা
+          আর সুন্দর সুন্দর স্মৃতি।
+        </p>
+      </div>
+
+      <button onclick="goTo('welcome')">
+        Start Again ↺
+      </button>
+    </div>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
