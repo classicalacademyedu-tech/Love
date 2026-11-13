@@ -1,303 +1,217 @@
-
-/* =================================
-   A LITTLE WORLD OF LOVE
-   SCRIPT.JS
-================================= */
-
-// PASSWORD
 const SECRET_PASSWORD = "2011";
 
 const wrongMessages = [
-  "উফ! আবার চেষ্টা করো, Momo! 🥺",
-  "একটু আর ভাবো… তুমি পারবে! 💗",
+  "আবার চেষ্টা করো, Momo! 🥺",
+  "একটু আর ভাবো! 💗",
   "হিন্টটা কিন্তু তোমার কাছেই আছে! 🌷",
-  "Nope! আরেকবার চেষ্টা করো, Detective Momo! 🕵️‍♀️",
-  "এই ছোট্ট পৃথিবীটা খুলতে আরেকটু চেষ্টা করো! ✨"
+  "Detective Momo, try again! 🕵️",
+  "তুমি পারবে! ✨"
 ];
 
 let wrongCount = 0;
+let selectedMeeting = null;
+let countdownTimer = null;
 
-
-// PAGE NAVIGATION
-function goTo(pageId) {
-
-  const pages = document.querySelectorAll(".page");
-
-  pages.forEach(page => {
+function goTo(id) {
+  document.querySelectorAll(".page").forEach(page => {
     page.classList.remove("active");
   });
 
-  const selectedPage = document.getElementById(pageId);
-
-  if (selectedPage) {
-    selectedPage.classList.add("active");
-  }
-
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth"
-  });
+  document.getElementById(id).classList.add("active");
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-
-// PASSWORD CHECK
 function checkPassword() {
-
-  const password = document
-    .getElementById("pass")
-    .value
-    .trim();
-
+  const value = document.getElementById("pass").value.trim();
   const message = document.getElementById("passMsg");
 
-  if (password === SECRET_PASSWORD) {
-
-    message.textContent =
-      "Yay! Welcome, Momo! 💗";
-
-    setTimeout(() => {
-      goTo("welcome");
-    }, 700);
-
+  if (value === SECRET_PASSWORD) {
+    message.textContent = "Welcome, Momo! 💗";
+    setTimeout(() => goTo("welcome"), 700);
   } else {
-
     message.textContent =
-      wrongMessages[
-        wrongCount % wrongMessages.length
-      ];
-
+      wrongMessages[wrongCount % wrongMessages.length];
     wrongCount++;
   }
 }
 
+document.getElementById("pass").addEventListener("keydown", e => {
+  if (e.key === "Enter") checkPassword();
+});
 
-// ENTER KEY PASSWORD
-document
-  .getElementById("pass")
-  .addEventListener("keydown", function(event) {
-
-    if (event.key === "Enter") {
-      checkPassword();
-    }
-
-  });
-
-
-// PHOTO PREVIEW
-function previewPhoto(event, imageId) {
-
+function previewPhoto(event, id) {
   const file = event.target.files[0];
-
   if (!file) return;
 
   if (!file.type.startsWith("image/")) {
-    alert("Please select an image file.");
+    alert("Please select an image.");
     return;
   }
 
-  const image = document.getElementById(imageId);
+  const img = document.getElementById(id);
 
-  if (image.dataset.objectUrl) {
-    URL.revokeObjectURL(image.dataset.objectUrl);
-  }
+  if (img.dataset.url) URL.revokeObjectURL(img.dataset.url);
 
-  const imageUrl = URL.createObjectURL(file);
-
-  image.src = imageUrl;
-  image.dataset.objectUrl = imageUrl;
-  image.style.display = "block";
+  img.dataset.url = URL.createObjectURL(file);
+  img.src = img.dataset.url;
+  img.style.display = "block";
 }
 
+function saveFirstDate() {
+  const value = document.getElementById("firstMeetDate").value;
+  const result = document.getElementById("firstDateResult");
+  const elapsed = document.getElementById("firstElapsed");
 
-// SPECIAL DATE
-function saveDate() {
-
-  const dateValue =
-    document.getElementById("meetDate").value;
-
-  const result =
-    document.getElementById("dateResult");
-
-  const elapsed =
-    document.getElementById("elapsed");
-
-  if (!dateValue) {
-
-    result.textContent =
-      "আগে একটি তারিখ বেছে নাও, Momo! 🌸";
-
+  if (!value) {
+    result.textContent = "একটি তারিখ বেছে নাও! 🌸";
     elapsed.textContent = "";
     return;
   }
 
-  const selectedDate =
-    new Date(dateValue + "T00:00:00");
-
+  const date = new Date(value + "T00:00:00");
   const today = new Date();
-
   today.setHours(0, 0, 0, 0);
 
-  if (selectedDate > today) {
-
-    result.textContent =
-      "আজকের বা তার আগের কোনো তারিখ বেছে নাও। 💗";
-
+  if (date > today) {
+    result.textContent = "আগের কোনো তারিখ বেছে নাও।";
     elapsed.textContent = "";
     return;
   }
 
-  const difference =
-    today.getTime() - selectedDate.getTime();
+  const days = Math.floor((today - date) / 86400000);
 
-  const totalDays =
-    Math.floor(difference / (1000 * 60 * 60 * 24));
-
-  result.textContent =
-    "Our special date has been saved! 🌹✨";
-
-  elapsed.textContent =
-    "এই সুন্দর দিনটির পর কেটে গেছে " +
-    totalDays.toLocaleString() +
-    " দিন। 💞";
-
-  createHearts(12);
+  result.textContent = "Our first meeting date is saved! 🌹";
+  elapsed.textContent = days + " beautiful days have passed. 💞";
+  createHearts(15);
 }
 
+function previewMeeting() {
+  const date = document.getElementById("nextMeetDate").value;
+  const time = document.getElementById("meetTime").value;
+  const message = document.getElementById("meetMessage").value.trim();
 
-// QUIZ ANSWER
-function quizAnswer(correct) {
-
-  const result =
-    document.getElementById("quizResult");
-
-  if (correct) {
-
-    result.textContent =
-      "একদম ঠিক! এই ছোট্ট পৃথিবীটা তোমার জন্যই! 💗";
-
-    createHearts(15);
-
-  } else {
-
-    result.textContent =
-      "আবার চেষ্টা করো, Momo! উত্তরটা তুমি জানো! 🌷";
-
-  }
-}
-
-
-// GIFT BOX
-function openGift() {
-
-  const finalMessage =
-    document.getElementById("finalMessage");
-
-  if (!finalMessage.classList.contains("hidden")) {
+  if (!date || !time) {
+    alert("Please select your meeting date and time.");
     return;
   }
 
-  finalMessage.classList.remove("hidden");
+  const chosen = new Date(date + "T" + time);
 
-  createHearts(35);
+  if (chosen <= new Date()) {
+    alert("Please choose a future date and time.");
+    return;
+  }
 
+  selectedMeeting = { date, time, message };
+
+  document.getElementById("previewDate").textContent =
+    "Date: " + new Date(date + "T00:00:00").toLocaleDateString();
+
+  document.getElementById("previewTime").textContent =
+    "Time: " + time;
+
+  document.getElementById("previewMessage").textContent =
+    message || "A beautiful day awaits us! 💗";
+
+  document.getElementById("meetingPreview").classList.remove("hidden");
+  document.getElementById("meetingConfirmed").classList.add("hidden");
 }
 
+function confirmMeeting() {
+  if (!selectedMeeting) return;
 
-// FLOATING HEARTS
+  const dateTime = selectedMeeting.date + "T" + selectedMeeting.time;
+  const target = new Date(dateTime);
+
+  document.getElementById("meetingConfirmed").classList.remove("hidden");
+
+  document.getElementById("confirmedText").textContent =
+    "Our planned meeting: " + target.toLocaleString();
+
+  if (countdownTimer) clearInterval(countdownTimer);
+
+  function updateCountdown() {
+    const remaining = target.getTime() - Date.now();
+
+    if (remaining <= 0) {
+      document.getElementById("countdown").textContent =
+        "Today is your planned meeting day! 💗";
+      clearInterval(countdownTimer);
+      return;
+    }
+
+    const days = Math.floor(remaining / 86400000);
+    const hours = Math.floor((remaining % 86400000) / 3600000);
+    const minutes = Math.floor((remaining % 3600000) / 60000);
+    const seconds = Math.floor((remaining % 60000) / 1000);
+
+    document.getElementById("countdown").textContent =
+      `${days} days ${hours} hours ${minutes} minutes ${seconds} seconds left 💞`;
+  }
+
+  updateCountdown();
+  countdownTimer = setInterval(updateCountdown, 1000);
+  createHearts(35);
+}
+
+function quizAnswer(correct) {
+  document.getElementById("quizResult").textContent = correct
+    ? "একদম ঠিক! This little world is for you, Momo! 💗"
+    : "আবার চেষ্টা করো! 🌸";
+
+  if (correct) createHearts(15);
+}
+
+function openGift() {
+  const message = document.getElementById("finalMessage");
+
+  if (message.classList.contains("hidden")) {
+    message.classList.remove("hidden");
+    createHearts(40);
+  }
+}
+
 function createHearts(amount) {
-
-  const emojis = [
-    "💗",
-    "💖",
-    "💕",
-    "✨",
-    "🌸",
-    "❤️"
-  ];
+  const emojis = ["💗", "💖", "💕", "✨", "🌸", "❤️"];
 
   for (let i = 0; i < amount; i++) {
+    const heart = document.createElement("span");
 
-    const heart =
-      document.createElement("span");
-
-    heart.textContent =
-      emojis[Math.floor(Math.random() * emojis.length)];
-
+    heart.textContent = emojis[Math.floor(Math.random() * emojis.length)];
     heart.style.position = "fixed";
-
-    heart.style.left =
-      Math.random() * 100 + "vw";
-
-    heart.style.top =
-      Math.random() * 100 + "vh";
-
-    heart.style.fontSize =
-      (18 + Math.random() * 25) + "px";
-
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.top = Math.random() * 100 + "vh";
+    heart.style.fontSize = 20 + Math.random() * 25 + "px";
     heart.style.zIndex = "100";
-
     heart.style.pointerEvents = "none";
-
-    heart.style.transition =
-      "all 1.8s ease-out";
+    heart.style.transition = "all 1.8s ease";
 
     document.body.appendChild(heart);
 
     requestAnimationFrame(() => {
-
-      heart.style.transform =
-        "translateY(-120px) scale(1.5)";
-
+      heart.style.transform = "translateY(-120px) scale(1.5)";
       heart.style.opacity = "0";
-
     });
 
-    setTimeout(() => {
-      heart.remove();
-    }, 1900);
-
+    setTimeout(() => heart.remove(), 1900);
   }
 }
 
-
-// BACKGROUND FLOATING HEARTS
 function startBackgroundHearts() {
-
-  const container =
-    document.getElementById("hearts");
+  const container = document.getElementById("hearts");
 
   for (let i = 0; i < 25; i++) {
-
-    const heart =
-      document.createElement("span");
+    const heart = document.createElement("span");
 
     heart.className = "heart";
-
-    heart.textContent =
-      i % 4 === 0 ? "✦" : "♥";
-
-    heart.style.left =
-      Math.random() * 100 + "%";
-
-    heart.style.fontSize =
-      (12 + Math.random() * 22) + "px";
-
-    heart.style.animationDuration =
-      (8 + Math.random() * 12) + "s";
-
-    heart.style.animationDelay =
-      (-Math.random() * 15) + "s";
+    heart.textContent = i % 4 === 0 ? "✦" : "♥";
+    heart.style.left = Math.random() * 100 + "%";
+    heart.style.fontSize = 12 + Math.random() * 22 + "px";
+    heart.style.animationDuration = 8 + Math.random() * 12 + "s";
+    heart.style.animationDelay = -Math.random() * 15 + "s";
 
     container.appendChild(heart);
-
   }
-
 }
 
-
-// START WEBSITE
-document.addEventListener("DOMContentLoaded", function() {
-
-  startBackgroundHearts();
-
-});
+startBackgroundHearts();
