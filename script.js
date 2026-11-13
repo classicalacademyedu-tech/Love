@@ -1,4 +1,4 @@
-const SECRET_PASSWORD = "I Love You";
+const SECRET_PASSWORD = "2011";
 
 const wrongMessages = [
   "আবার চেষ্টা করো, Momo! 🥺",
