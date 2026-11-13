@@ -1,0 +1,390 @@
+
+/* ==============================
+   A LITTLE WORLD OF LOVE
+   STYLE.CSS
+================================ */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --background: #090610;
+  --card: #191020;
+  --pink: #ff4fa3;
+  --purple: #a56bff;
+  --white: #fff2fa;
+}
+
+body {
+  min-height: 100vh;
+  font-family: 'Segoe UI', sans-serif;
+  color: var(--white);
+
+  background:
+    radial-gradient(circle at top left, #351044, transparent 40%),
+    radial-gradient(circle at bottom right, #281044, transparent 40%),
+    var(--background);
+
+  overflow-x: hidden;
+}
+
+/* PAGE SYSTEM */
+
+.page {
+  display: none;
+  min-height: 100vh;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 25px;
+  position: relative;
+  z-index: 2;
+}
+
+.page.active {
+  display: flex;
+  animation: pageEnter 0.8s ease;
+}
+
+@keyframes pageEnter {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* MAIN CARD */
+
+.card {
+  width: 100%;
+  max-width: 720px;
+
+  padding: 45px 30px;
+
+  text-align: center;
+
+  background: rgba(25, 16, 32, 0.92);
+
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 28px;
+
+  box-shadow:
+    0 0 30px rgba(165,107,255,0.15),
+    0 20px 60px rgba(0,0,0,0.5);
+
+  backdrop-filter: blur(15px);
+}
+
+/* HEADINGS */
+
+h1 {
+  font-size: clamp(30px, 6vw, 48px);
+  margin-bottom: 18px;
+
+  background: linear-gradient(
+    90deg,
+    #ffffff,
+    #ff82c1,
+    #b68aff
+  );
+
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+h2 {
+  font-size: 24px;
+  margin-bottom: 18px;
+}
+
+h3 {
+  margin: 15px 0;
+}
+
+p {
+  color: #d6c3d7;
+  line-height: 1.8;
+  margin: 15px 0;
+}
+
+/* EMOJI */
+
+.emoji {
+  font-size: 55px;
+  margin-bottom: 20px;
+
+  animation: floating 3s ease-in-out infinite;
+}
+
+@keyframes floating {
+  0%, 100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+/* BUTTONS */
+
+button {
+  border: none;
+  outline: none;
+
+  padding: 14px 25px;
+  margin: 10px 5px;
+
+  border-radius: 50px;
+
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  background: linear-gradient(
+    100deg,
+    #d83b91,
+    #854de6
+  );
+
+  box-shadow:
+    0 5px 20px rgba(216,59,145,0.3);
+
+  transition: 0.3s ease;
+}
+
+button:hover {
+  transform: translateY(-4px) scale(1.03);
+
+  box-shadow:
+    0 8px 30px rgba(255,79,163,0.5);
+}
+
+button:active {
+  transform: scale(0.96);
+}
+
+/* INPUT FIELDS */
+
+input {
+  width: 100%;
+  max-width: 350px;
+
+  padding: 14px 18px;
+  margin: 15px auto;
+
+  display: block;
+
+  color: white;
+  background: #0b0711;
+
+  border: 1px solid #9c69b8;
+  border-radius: 14px;
+
+  outline: none;
+  font-size: 16px;
+}
+
+input:focus {
+  border-color: var(--pink);
+
+  box-shadow:
+    0 0 15px rgba(255,79,163,0.4);
+}
+
+input[type="date"] {
+  color-scheme: dark;
+}
+
+/* LOVE LETTER */
+
+.letter {
+  text-align: left;
+  white-space: pre-line;
+
+  line-height: 2;
+  font-size: 16px;
+
+  padding: 25px;
+  margin: 20px 0;
+
+  border-radius: 18px;
+
+  background: rgba(255,255,255,0.05);
+
+  border: 1px solid rgba(255,255,255,0.12);
+}
+
+/* GALLERY */
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+
+  gap: 20px;
+  margin: 25px 0;
+}
+
+.gallery > div {
+  padding: 20px;
+
+  border-radius: 20px;
+
+  background: rgba(255,255,255,0.06);
+  border: 1px dashed #d58acb;
+}
+
+.gallery img {
+  display: block;
+
+  width: 100%;
+  max-height: 280px;
+
+  object-fit: contain;
+
+  margin-top: 15px;
+  border-radius: 15px;
+}
+
+/* MOON */
+
+.moon {
+  font-size: 75px;
+
+  margin-bottom: 20px;
+
+  filter: drop-shadow(
+    0 0 25px #b98aff
+  );
+
+  animation: moonGlow 3s infinite alternate;
+}
+
+@keyframes moonGlow {
+  from {
+    transform: translateY(0);
+    filter: drop-shadow(0 0 10px #b98aff);
+  }
+
+  to {
+    transform: translateY(-10px);
+    filter: drop-shadow(0 0 35px #ff74bd);
+  }
+}
+
+/* GIFT */
+
+.gift {
+  font-size: 100px;
+
+  cursor: pointer;
+  display: inline-block;
+
+  animation: giftMove 1.5s infinite ease-in-out;
+}
+
+@keyframes giftMove {
+  0%, 100% {
+    transform: translateY(0) rotate(0);
+  }
+
+  50% {
+    transform: translateY(-15px) rotate(5deg);
+  }
+}
+
+/* HIDDEN ELEMENT */
+
+.hidden {
+  display: none !important;
+}
+
+/* HEART BACKGROUND */
+
+#hearts {
+  position: fixed;
+  inset: 0;
+
+  overflow: hidden;
+  pointer-events: none;
+
+  z-index: 1;
+}
+
+.heart {
+  position: absolute;
+  bottom: -50px;
+
+  color: var(--pink);
+
+  opacity: 0.7;
+
+  animation: heartFloat linear infinite;
+
+  text-shadow:
+    0 0 12px var(--pink);
+}
+
+@keyframes heartFloat {
+  from {
+    transform: translateY(0) rotate(0);
+    opacity: 0.7;
+  }
+
+  to {
+    transform: translateY(-115vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* DATE RESULT */
+
+#dateResult,
+#elapsed,
+#quizResult,
+#passMsg {
+  color: #ff9acb;
+  margin-top: 18px;
+}
+
+/* RESPONSIVE DESIGN */
+
+@media (max-width: 600px) {
+
+  .page {
+    padding: 15px;
+  }
+
+  .card {
+    padding: 35px 20px;
+  }
+
+  .gallery {
+    grid-template-columns: 1fr;
+  }
+
+  h1 {
+    font-size: 32px;
+  }
+
+  .letter {
+    padding: 18px;
+    font-size: 14px;
+  }
+
+  button {
+    padding: 13px 20px;
+  }
+}
